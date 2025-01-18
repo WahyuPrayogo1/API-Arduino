@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('absens', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');  // Relasi dengan tabel users
             $table->string('rfid');
+            $table->timestamp('waktu_masuk')->nullable();
+            $table->timestamp('waktu_keluar')->nullable();
+            $table->enum('status', ['hadir', 'izin', 'terlambat'])->default('hadir');
             $table->timestamps();
         });
     }
