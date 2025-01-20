@@ -23,42 +23,62 @@ class RfidController extends Controller
         $user = User::where('rfid', $rfid)->first();
 
         if ($user) {
+            // Atur zona waktu ke Asia/Jakarta
+            $now = now()->setTimezone('Asia/Jakarta');
+
             // Cek apakah pengguna sudah ada di absensi hari ini
             $absen = Absen::where('user_id', $user->id)
-                          ->whereDate('waktu_masuk', now()->toDateString())  // Memastikan absensi untuk hari ini
-                          ->first();
+                ->orderBy('waktu_masuk', 'desc')
+                ->first();
 
-            if (!$absen) {
-                // Jika tidak ada absensi, berarti pengguna melakukan absensi pertama kali (waktu masuk)
+            if (!$absen || $absen->waktu_masuk->toDateString() !== $now->toDateString()) {
+                // Jika tidak ada absensi atau absensi terakhir bukan di hari ini, buat entri baru (waktu masuk)
                 Absen::create([
                     'user_id' => $user->id,
                     'rfid' => $rfid,
-                    'waktu_masuk' => now(),
-                    'status' => 'hadir',  // Anda bisa menyesuaikan status jika diperlukan
+                    'waktu_masuk' => $now,
+                    'status' => 'hadir', // Anda bisa menyesuaikan status jika diperlukan
                 ]);
 
-                return response()->json([
-                    'message' => 'Absensi masuk berhasil!',
-                    'user' => $user->name,
-                    'waktu_masuk' => now()->toString(),
-                ], 200);
-            } else {
-                // Jika absensi sudah ada (waktu masuk), maka kita anggap ini sebagai waktu keluar
+                return response()->json(
+                    [
+                        'message' => 'Absensi masuk berhasil!',
+                        'user' => $user->name,
+                        'waktu_masuk' => $now->toString(),
+                    ],
+                    200,
+                );
+            } elseif (!$absen->waktu_keluar) {
+                // Jika absensi masuk ada tapi belum ada waktu keluar, tambahkan waktu keluar
                 $absen->update([
-                    'waktu_keluar' => now(),
+                    'waktu_keluar' => $now,
                 ]);
 
-                return response()->json([
-                    'message' => 'Absensi keluar berhasil!',
-                    'user' => $user->name,
-                    'waktu_keluar' => now()->toString(),
-                ], 200);
+                return response()->json(
+                    [
+                        'message' => 'Absensi keluar berhasil!',
+                        'user' => $user->name,
+                        'waktu_keluar' => $now->toString(),
+                    ],
+                    200,
+                );
+            } else {
+                // Jika absensi masuk dan keluar sudah ada di hari yang sama
+                return response()->json(
+                    [
+                        'message' => 'Absensi sudah dilakukan hari ini. Silakan absen kembali besok.',
+                    ],
+                    400,
+                );
             }
         } else {
             // Jika pengguna tidak ditemukan
-            return response()->json([
-                'message' => 'Pengguna tidak ditemukan!',
-            ], 404);
+            return response()->json(
+                [
+                    'message' => 'Pengguna tidak ditemukan!',
+                ],
+                404,
+            );
         }
     }
 }
