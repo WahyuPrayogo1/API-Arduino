@@ -10,13 +10,13 @@
             Dashboard
           </div>
           <h2 class="page-title">
-            Sistem Absensi Karyawan
+            Enterprise Resource Planning (ERP)🤷‍♂️
           </h2>
         </div>
       </div>
     </div>
   </div>
-<div class="container-xl">
+<div class="container-xl mt-5">
     <div class="row row-deck row-cards">
       <div class="col-sm-6 col-lg-3">
         <div class="card">
