@@ -42,7 +42,7 @@ class RfidController extends Controller
 
                 return response()->json(
                     [
-                        'message' => 'Absensi masuk berhasil!',
+                        'message' => 'Masuk OK',
                         'user' => $user->name,
                         'waktu_masuk' => $now->toString(),
                     ],
@@ -56,7 +56,7 @@ class RfidController extends Controller
 
                 return response()->json(
                     [
-                        'message' => 'Absensi keluar berhasil!',
+                        'message' => 'Keluar OK',
                         'user' => $user->name,
                         'waktu_keluar' => $now->toString(),
                     ],
@@ -66,7 +66,7 @@ class RfidController extends Controller
                 // Jika absensi masuk dan keluar sudah ada di hari yang sama
                 return response()->json(
                     [
-                        'message' => 'Absensi sudah dilakukan hari ini. Silakan absen kembali besok.',
+                        'message' => 'Sudah absen',
                     ],
                     400,
                 );
@@ -75,7 +75,7 @@ class RfidController extends Controller
             // Jika pengguna tidak ditemukan
             return response()->json(
                 [
-                    'message' => 'Pengguna tidak ditemukan!',
+                    'message' => 'Tidak ditemukan',
                 ],
                 404,
             );
