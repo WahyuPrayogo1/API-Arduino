@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('rfid');
             $table->timestamp('waktu_masuk')->nullable();
             $table->timestamp('waktu_keluar')->nullable();
-            $table->enum('status', ['hadir', 'izin', 'terlambat'])->default('hadir');
+            $table->enum('status', ['hadir', 'izin', 'alpa'])->default('hadir');
             $table->timestamps();
         });
     }
