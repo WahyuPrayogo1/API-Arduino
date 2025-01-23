@@ -67,6 +67,7 @@ class RfidController extends Controller
                 return response()->json(
                     [
                         'message' => 'Sudah absen',
+                        'user' => 'Kartu Anda',
                     ],
                     400,
                 );
@@ -76,6 +77,7 @@ class RfidController extends Controller
             return response()->json(
                 [
                     'message' => 'Tidak ditemukan',
+                    'user' => 'Kartu',
                 ],
                 404,
             );
