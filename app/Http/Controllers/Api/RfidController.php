@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Absen;
 use App\Models\User;
+use Carbon\Carbon;  // Pastikan Carbon sudah di-import untuk mengatur waktu
 
 class RfidController extends Controller
 {
