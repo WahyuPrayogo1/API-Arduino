@@ -66,8 +66,8 @@ class RfidController extends Controller
                 // Jika absensi masuk dan keluar sudah ada di hari yang sama
                 return response()->json(
                     [
-                        'message' => 'Sudah absen',
-                        'user' => 'Kartu Anda',
+                        'message' => 'Coba Lagi Besok',
+                        'user' => 'Silahkan',
                     ],
                     400,
                 );
