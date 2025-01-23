@@ -26,6 +26,20 @@ class RfidController extends Controller
             // Atur zona waktu ke Asia/Jakarta
             $now = now()->setTimezone('Asia/Jakarta');
 
+            // Tentukan waktu besok mulai jam 00:00
+            $tomorrow = Carbon::tomorrow('Asia/Jakarta')->startOfDay();  // Waktu besok jam 00:00
+
+            // Cek apakah sudah lewat waktu besok (jam 00:00)
+            if ($now->lessThan($tomorrow)) {
+                return response()->json(
+                    [
+                        'message' => 'Coba Lagi Besok',
+                        'user' => 'Silahkan',
+                    ],
+                    400
+                );
+            }
+
             // Cek apakah pengguna sudah ada di absensi hari ini
             $absen = Absen::where('user_id', $user->id)
                 ->orderBy('waktu_masuk', 'desc')
