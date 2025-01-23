@@ -42,7 +42,7 @@ class RfidController extends Controller
 
                 return response()->json(
                     [
-                        'message' => 'Masuk OK',
+                        'message' => 'Absen Masuk',
                         'user' => $user->name,
                         'waktu_masuk' => $now->toString(),
                     ],
@@ -56,7 +56,7 @@ class RfidController extends Controller
 
                 return response()->json(
                     [
-                        'message' => 'Keluar OK',
+                        'message' => 'Absen Pulang',
                         'user' => $user->name,
                         'waktu_keluar' => $now->toString(),
                     ],
