@@ -27,27 +27,13 @@ class RfidController extends Controller
             // Atur zona waktu ke Asia/Jakarta
             $now = now()->setTimezone('Asia/Jakarta');
 
-            // Tentukan waktu besok mulai jam 00:00
-            $tomorrow = Carbon::tomorrow('Asia/Jakarta')->startOfDay();  // Waktu besok jam 00:00
-
-            // Cek apakah sudah lewat waktu besok (jam 00:00)
-            if ($now->lessThan($tomorrow)) {
-                return response()->json(
-                    [
-                        'message' => 'Coba Lagi Besok',
-                        'user' => 'Silahkan',
-                    ],
-                    400
-                );
-            }
-
-            // Cek apakah pengguna sudah ada di absensi hari ini
+            // Cek apakah sudah ada absensi untuk hari ini
             $absen = Absen::where('user_id', $user->id)
-                ->orderBy('waktu_masuk', 'desc')
+                ->whereDate('waktu_masuk', $now->toDateString()) // Cek berdasarkan tanggal
                 ->first();
 
-            if (!$absen || $absen->waktu_masuk->toDateString() !== $now->toDateString()) {
-                // Jika tidak ada absensi atau absensi terakhir bukan di hari ini, buat entri baru (waktu masuk)
+            if (!$absen) {
+                // Jika belum ada absensi, buat entri baru (waktu masuk)
                 Absen::create([
                     'user_id' => $user->id,
                     'rfid' => $rfid,
