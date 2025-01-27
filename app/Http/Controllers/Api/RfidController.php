@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Absen;
 use App\Models\User;
+use Carbon\Carbon;  // Pastikan Carbon sudah di-import untuk mengatur waktu
 
 class RfidController extends Controller
 {
@@ -26,13 +27,13 @@ class RfidController extends Controller
             // Atur zona waktu ke Asia/Jakarta
             $now = now()->setTimezone('Asia/Jakarta');
 
-            // Cek apakah pengguna sudah ada di absensi hari ini
+            // Cek apakah sudah ada absensi untuk hari ini
             $absen = Absen::where('user_id', $user->id)
-                ->orderBy('waktu_masuk', 'desc')
+                ->whereDate('waktu_masuk', $now->toDateString()) // Cek berdasarkan tanggal
                 ->first();
 
-            if (!$absen || $absen->waktu_masuk->toDateString() !== $now->toDateString()) {
-                // Jika tidak ada absensi atau absensi terakhir bukan di hari ini, buat entri baru (waktu masuk)
+            if (!$absen) {
+                // Jika belum ada absensi, buat entri baru (waktu masuk)
                 Absen::create([
                     'user_id' => $user->id,
                     'rfid' => $rfid,
@@ -42,7 +43,7 @@ class RfidController extends Controller
 
                 return response()->json(
                     [
-                        'message' => 'Masuk OK',
+                        'message' => 'Absen Masuk',
                         'user' => $user->name,
                         'waktu_masuk' => $now->toString(),
                     ],
@@ -56,7 +57,7 @@ class RfidController extends Controller
 
                 return response()->json(
                     [
-                        'message' => 'Keluar OK',
+                        'message' => 'Absen Pulang',
                         'user' => $user->name,
                         'waktu_keluar' => $now->toString(),
                     ],
@@ -66,7 +67,8 @@ class RfidController extends Controller
                 // Jika absensi masuk dan keluar sudah ada di hari yang sama
                 return response()->json(
                     [
-                        'message' => 'Sudah absen',
+                        'message' => 'Coba Lagi Besok',
+                        'user' => 'Silahkan',
                     ],
                     400,
                 );
@@ -76,6 +78,7 @@ class RfidController extends Controller
             return response()->json(
                 [
                     'message' => 'Tidak ditemukan',
+                    'user' => 'Kartu',
                 ],
                 404,
             );
