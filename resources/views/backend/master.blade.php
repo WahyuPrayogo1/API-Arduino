@@ -43,11 +43,6 @@
         @include('backend.components.footer')
       </div>
     </div>
-    <!-- Libs JS -->
-    <script src="{{asset('backend/libs/apexcharts/dist/apexcharts.min.js?1692870487')}}" defer></script>
-    <script src="{{asset('backend/libs/jsvectormap/dist/js/jsvectormap.min.js?1692870487')}}" defer></script>
-    <script src="{{asset('backend/libs/jsvectormap/dist/maps/world.js?1692870487')}}" defer></script>
-    <script src="{{asset('backend/libs/jsvectormap/dist/maps/world-merc.js?1692870487')}}" defer></script>
 
     <script src="{{asset('backend/js/tabler.min.js?1692870487')}}" defer></script>
     <script src="{{asset('backend/js/demo.min.js?1692870487')}}" defer></script>

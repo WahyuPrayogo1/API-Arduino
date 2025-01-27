@@ -96,7 +96,7 @@
                 <h2 class="page-title pb-2">
                     Sistem Absensi Karyawan
                 </h2>
-                <small style="color: rgb(255, 0, 0);" >Fitur Sudah Bisa integrasi dengan Mikrokontroller Menggunakan RFID Kartu</small>
+                <small style="color: rgb(255, 0, 0);" >Fitur Sudah Bisa integrasi dengan Mikrokontroller Menggunakan RFID Kartu CEK YOUTUBE : <p class="fw-bold"> https://www.youtube.com/watch?v=Ju8m6eXHvbs</p></small>
             </div>
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">

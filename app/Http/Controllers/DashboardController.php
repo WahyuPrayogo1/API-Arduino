@@ -7,12 +7,11 @@ use App\Models\User;
 use App\Models\Absen;
 use App\Models\BarangMasuk;
 use App\Models\Barang;
-
-
+use App\Charts\SalesPerDayChart;
 
 class DashboardController extends Controller
 {
-    public function index() {
+    public function index(SalesPerDayChart $salesPerDayChart) {
 
         // Start Ini untuk Tampilan Di dashboard
             $totalUsers = User::count();
@@ -35,16 +34,16 @@ class DashboardController extends Controller
         // END
 
 
+
             return view('dashboard',[
                 'totalUsers' => $totalUsers,
                 'absenToday' => $absenToday,
                 'percentage' => $percentage,
                 'totalBarangMasuk' => $totalBarangMasuk,
                 'barangMasukPerHari' => $barangMasukPerHari,
-                'totalBarang' => $totalBarang
+                'totalBarang' => $totalBarang,
+                'salesPerDayChart' => $salesPerDayChart->build()
             ]);
-
-
 
     }
 }

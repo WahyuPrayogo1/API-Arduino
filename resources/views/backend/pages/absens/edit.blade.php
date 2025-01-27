@@ -45,6 +45,10 @@
                             <input type="datetime-local" class="form-control" name="waktu_masuk" id="waktu_masuk" value="{{ $absen->waktu_masuk }}" required>
                         </div>
                         <div class="mb-3">
+                            <label for="waktu_keluar" class="form-label">Waktu Keluar</label>
+                            <input type="datetime-local" class="form-control" name="waktu_keluar" id="waktu_keluar" value="{{ $absen->waktu_keluar }}" required>
+                        </div>
+                        <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" name="status" id="status" required>
                                 <option value="hadir" {{ $absen->status == 'hadir' ? 'selected' : '' }}>Hadir</option>

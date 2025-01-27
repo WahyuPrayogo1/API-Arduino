@@ -59,7 +59,7 @@
             let inputVal = e.target.value;
             inputVal = inputVal.replace(/[^0-9]/g, '');
             inputVal = new Intl.NumberFormat('id-ID').format(inputVal);
-            e.target.value = 'Rp. ' + inputVal; 
+            e.target.value = 'Rp. ' + inputVal;
         });
     </script>
 @endsection

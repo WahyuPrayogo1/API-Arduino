@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\PenjualanController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +34,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('barang', BarangController::class);
     Route::resource('barang-masuk', BarangMasukController::class);
+    Route::resource('sales', PenjualanController::class);
+
 
 });
 
