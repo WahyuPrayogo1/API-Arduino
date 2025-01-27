@@ -21,26 +21,17 @@ class DashboardController extends Controller
 
         // Start Barang Masuk
             $totalBarangMasuk = BarangMasuk::sum('jumlah');
-            // Barang masuk per hari untuk 7 hari terakhir
-            $barangMasukPerHari = BarangMasuk::selectRaw('DATE(tanggal_masuk) as tanggal, SUM(jumlah) as total')
-                ->where('tanggal_masuk', '>=', now()->subDays(7)) // 7 hari terakhir
-                ->groupBy('tanggal')
-                ->orderBy('tanggal', 'asc')
-                ->get();
         // END
 
         // Start Barang
             $totalBarang = Barang::count();
         // END
 
-
-
             return view('dashboard',[
                 'totalUsers' => $totalUsers,
                 'absenToday' => $absenToday,
                 'percentage' => $percentage,
                 'totalBarangMasuk' => $totalBarangMasuk,
-                'barangMasukPerHari' => $barangMasukPerHari,
                 'totalBarang' => $totalBarang,
                 'salesPerDayChart' => $salesPerDayChart->build()
             ]);

@@ -89,11 +89,8 @@
     </div>
 </div>
 
-
   <script src="{{ $salesPerDayChart->cdn() }}"></script>
 
   {{ $salesPerDayChart->script() }}
-
-
 
 @endsection

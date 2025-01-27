@@ -16,20 +16,16 @@ class RfidController extends Controller
         $request->validate([
             'rfid' => 'required|string',
         ]);
-
-        // Ambil UID RFID dari request
         $rfid = $request->input('rfid');
 
-        // Cari pengguna berdasarkan UID RFID yang dipindai
         $user = User::where('rfid', $rfid)->first();
 
         if ($user) {
-            // Atur zona waktu ke Asia/Jakarta
             $now = now()->setTimezone('Asia/Jakarta');
 
             // Cek apakah sudah ada absensi untuk hari ini
             $absen = Absen::where('user_id', $user->id)
-                ->whereDate('waktu_masuk', $now->toDateString()) // Cek berdasarkan tanggal
+                ->whereDate('waktu_masuk', $now->toDateString())
                 ->first();
 
             if (!$absen) {
@@ -38,7 +34,7 @@ class RfidController extends Controller
                     'user_id' => $user->id,
                     'rfid' => $rfid,
                     'waktu_masuk' => $now,
-                    'status' => 'hadir', // Anda bisa menyesuaikan status jika diperlukan
+                    'status' => 'hadir',
                 ]);
 
                 return response()->json(
@@ -50,7 +46,7 @@ class RfidController extends Controller
                     200,
                 );
             } elseif (!$absen->waktu_keluar) {
-                // Jika absensi masuk ada tapi belum ada waktu keluar, tambahkan waktu keluar
+
                 $absen->update([
                     'waktu_keluar' => $now,
                 ]);
@@ -64,7 +60,6 @@ class RfidController extends Controller
                     200,
                 );
             } else {
-                // Jika absensi masuk dan keluar sudah ada di hari yang sama
                 return response()->json(
                     [
                         'message' => 'Coba Lagi Besok',
@@ -74,7 +69,6 @@ class RfidController extends Controller
                 );
             }
         } else {
-            // Jika pengguna tidak ditemukan
             return response()->json(
                 [
                     'message' => 'Tidak ditemukan',

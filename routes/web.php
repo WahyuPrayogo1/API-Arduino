@@ -28,10 +28,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 
 Route::middleware('auth')->group(function () {
     Route::resource('absens', AbsenController::class);
-
     Route::resource('users', UserController::class);
-
-
     Route::resource('barang', BarangController::class);
     Route::resource('barang-masuk', BarangMasukController::class);
     Route::resource('sales', PenjualanController::class);

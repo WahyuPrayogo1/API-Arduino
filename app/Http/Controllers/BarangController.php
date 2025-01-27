@@ -25,7 +25,7 @@ class BarangController extends Controller
             'nama' => 'required|string|max:255',
             'kode' => 'required|string|max:100|unique:barangs',
             'stok' => 'required|integer',
-            'harga' => 'required|string', // Gunakan string untuk memproses format harga
+            'harga' => 'required|string',
         ]);
 
         $harga = preg_replace('/[^0-9]/', '', $request->harga);
@@ -39,13 +39,11 @@ class BarangController extends Controller
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan');
     }
 
-    // Menampilkan form untuk mengedit barang
     public function edit(Barang $barang)
     {
         return view('backend.pages.barang.edit', compact('barang'));
     }
 
-    // Mengupdate barang
     public function update(Request $request, Barang $barang)
     {
         $request->validate([
@@ -58,7 +56,6 @@ class BarangController extends Controller
         // Menghapus simbol "Rp" dan karakter non-angka dari harga
         $harga = preg_replace('/[^0-9]/', '', $request->harga);
 
-        // Update data barang dengan harga yang sudah diformat
         $barang->update([
             'nama' => $request->nama,
             'kode' => $request->kode,

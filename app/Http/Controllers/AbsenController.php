@@ -24,20 +24,20 @@ class AbsenController extends Controller
                     return $row->waktu_keluar ? $row->waktu_keluar : 'Belum Keluar';
                 })
                 ->addColumn('status', function($row) {
-                    // Menambahkan badge berdasarkan status
+
                     $badgeClass = '';
                     switch ($row->status) {
                         case 'hadir':
-                            $badgeClass = 'success'; // Hijau untuk Hadir
+                            $badgeClass = 'success';
                             break;
                         case 'izin':
-                            $badgeClass = 'warning'; // Kuning untuk Izin
+                            $badgeClass = 'warning';
                             break;
                         case 'alpa':
-                            $badgeClass = 'danger'; // Merah untuk Terlambat
+                            $badgeClass = 'danger';
                             break;
                         default:
-                            $badgeClass = 'secondary'; // Default untuk status yang tidak dikenal
+                            $badgeClass = 'secondary';
                             break;
                     }
                     // Mengembalikan badge dengan class yang sesuai
@@ -46,7 +46,7 @@ class AbsenController extends Controller
                 ->addColumn('aksi', function($row) {
                     return view('backend.pages.absens.actions', compact('row'));
                 })
-                ->rawColumns(['status', 'aksi'])  // Menandakan kolom yang mengandung HTML
+                ->rawColumns(['status', 'aksi'])
                 ->make(true);
         }
 
@@ -54,7 +54,6 @@ class AbsenController extends Controller
         return view('backend.pages.absens.index');
     }
 
-    // Menampilkan form untuk membuat absensi baru
     public function create()
     {
         $users = User::all();
@@ -68,7 +67,7 @@ class AbsenController extends Controller
             'user_id' => 'required|exists:users,id',
             'rfid' => 'required|string',
             'waktu_masuk' => 'required|date',
-            'waktu_keluar' => 'nullable|date', // Tambahkan validasi waktu keluar
+            'waktu_keluar' => 'nullable|date',
             'status' => 'required|in:hadir,izin,alpa',
         ]);
 
@@ -77,14 +76,13 @@ class AbsenController extends Controller
         return redirect()->route('absens.index')->with('success', 'Absensi berhasil ditambahkan.');
     }
 
-    // Menampilkan detail absensi
+
     public function show($id)
     {
         $absen = Absen::with('user')->findOrFail($id);
         return view('backend.pages.absens.show', compact('absen'));
     }
 
-    // Menampilkan form untuk mengedit absensi
     public function edit($id)
     {
         $absen = Absen::findOrFail($id);
@@ -98,7 +96,7 @@ class AbsenController extends Controller
             'user_id' => 'required|exists:users,id',
             'rfid' => 'required|string',
             'waktu_masuk' => 'required|date',
-            'waktu_keluar' => 'nullable|date', // Tambahkan validasi waktu keluar
+            'waktu_keluar' => 'nullable|date',
             'status' => 'required|in:hadir,izin,terlambat',
         ]);
 
@@ -108,7 +106,7 @@ class AbsenController extends Controller
         return redirect()->route('absens.index')->with('success', 'Absensi berhasil diperbarui.');
     }
 
-    // Menghapus data absensi
+
     public function destroy($id)
     {
         $absen = Absen::findOrFail($id);

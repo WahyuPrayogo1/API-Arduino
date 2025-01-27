@@ -11,13 +11,13 @@ class BarangMasukController extends Controller
 {
     public function index()
     {
-        $barangMasuks = BarangMasuk::with('barang')->get(); // Menampilkan semua barang masuk beserta relasi barang
+        $barangMasuks = BarangMasuk::with('barang')->get();
         return view('backend.pages.barang_masuk.index', compact('barangMasuks'));
     }
 
     public function create()
     {
-        $barangs = Barang::all(); // Ambil semua barang untuk pilihan
+        $barangs = Barang::all();
         return view('backend.pages.barang_masuk.create', compact('barangs'));
     }
 
@@ -33,27 +33,25 @@ class BarangMasukController extends Controller
 
         // Menyimpan data barang masuk
         $barangMasuk = BarangMasuk::create([
-            'barang_id' => $request->barang_id, // Menyimpan barang_id yang dipilih
-            'jumlah' => $request->jumlah, // Menyimpan jumlah barang yang masuk
-            'harga' => str_replace(['Rp', '.', ','], '', $request->harga), // Menghapus format rupiah jika ada
-            'tanggal_masuk' => $request->tanggal_masuk, // Menyimpan tanggal masuk barang
+            'barang_id' => $request->barang_id,
+            'jumlah' => $request->jumlah,
+            'harga' => str_replace(['Rp', '.', ','], '', $request->harga),
+            'tanggal_masuk' => $request->tanggal_masuk,
         ]);
 
         // Update stok di tabel barang
-        $barang = Barang::find($request->barang_id); // Cari barang berdasarkan barang_id
+        $barang = Barang::find($request->barang_id);
         if ($barang) {
-            $barang->stok += $request->jumlah; // Tambahkan jumlah barang masuk ke stok
-            $barang->save(); // Simpan perubahan
+            $barang->stok += $request->jumlah;
+            $barang->save();
         }
-
-        // Redirect ke halaman daftar barang masuk dengan pesan sukses
         return redirect()->route('barang-masuk.index')->with('success', 'Barang berhasil ditambahkan dan stok diperbarui.');
     }
 
 
     public function edit(BarangMasuk $barangMasuk)
     {
-        $barangs = Barang::all(); // Ambil semua barang untuk pilihan
+        $barangs = Barang::all();
         $formattedTanggalMasuk = \Carbon\Carbon::parse($barangMasuk->tanggal_masuk)->format('d-m-Y');
 
         return view('backend.pages.barang_masuk.edit', compact('barangMasuk', 'barangs','formattedTanggalMasuk'));
@@ -69,28 +67,27 @@ class BarangMasukController extends Controller
             'tanggal_masuk' => 'required|date',
         ]);
 
-        // Cari data barang masuk yang akan diedit
+
         $barangMasuk = BarangMasuk::findOrFail($id);
 
         // Hitung selisih jumlah barang masuk sebelumnya dengan yang baru
         $selisih = $request->jumlah - $barangMasuk->jumlah;
 
         // Update stok di tabel barang
-        $barang = Barang::find($request->barang_id); // Cari barang berdasarkan barang_id
+        $barang = Barang::find($request->barang_id);
         if ($barang) {
-            $barang->stok += $selisih; // Sesuaikan stok berdasarkan selisih jumlah
-            $barang->save(); // Simpan perubahan stok
+            $barang->stok += $selisih;
+            $barang->save();
         }
 
         // Update data barang masuk
         $barangMasuk->update([
-            'barang_id' => $request->barang_id, // Perbarui barang_id jika diperlukan
-            'jumlah' => $request->jumlah, // Perbarui jumlah barang masuk
-            'harga' => str_replace(['Rp', '.', ','], '', $request->harga), // Menghapus format rupiah jika ada
-            'tanggal_masuk' => $request->tanggal_masuk, // Perbarui tanggal masuk barang
+            'barang_id' => $request->barang_id,
+            'jumlah' => $request->jumlah,
+            'harga' => str_replace(['Rp', '.', ','], '', $request->harga),
+            'tanggal_masuk' => $request->tanggal_masuk,
         ]);
 
-        // Redirect ke halaman daftar barang masuk dengan pesan sukses
         return redirect()->route('barang-masuk.index')->with('success', 'Barang masuk berhasil diperbarui dan stok telah disesuaikan.');
     }
 
@@ -103,14 +100,13 @@ class BarangMasukController extends Controller
         // Kurangi stok di tabel barang
         $barang = Barang::find($barangMasuk->barang_id);
         if ($barang) {
-            $barang->stok -= $barangMasuk->jumlah; // Kurangi stok sesuai jumlah barang masuk
-            $barang->save(); // Simpan perubahan stok
+            $barang->stok -= $barangMasuk->jumlah;
+            $barang->save();
         }
 
         // Hapus data barang masuk
         $barangMasuk->delete();
 
-        // Redirect ke halaman daftar barang masuk dengan pesan sukses
         return redirect()->route('barang-masuk.index')->with('success', 'Barang masuk berhasil dihapus dan stok diperbarui.');
     }
 

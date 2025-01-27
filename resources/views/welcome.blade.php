@@ -63,23 +63,19 @@
         <!-- Teks di tengah -->
         <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
             <div class="container">
-                <h1 class="display-3 fw-bold poppins-extrabold">Sistem Absensi</h1>
-                <p class="poppins-medium">Aplikasi untuk mencatat dan mengelola kehadiran berbasis integrasi dengan Arduino, dan website</p>
+                <h1 class="display-3 fw-bold poppins-extrabold">Sistem Gudang</h1>
+                <p class="poppins-medium">Aplikasi untuk mencatat barang dan mengelola kehadiran berbasis integrasi dengan Arduino, dan website</p>
 
 
                 <!-- Bagian login/register sesuai dengan kondisi -->
                 @if (Route::has('login'))
                     <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
                         @auth
-
                             <a class="btn btn-outline-light btn-lg rounded-0 px-5 buttonfont" href="{{ url('/dashboard') }}"
                                 role="button">Dashboard</a>
                         @else
                             <a class="btn btn-outline-light btn-lg rounded-0 px-5 buttonfont" href="{{ route('login') }}"
                                 role="button">LOGIN</a>
-
-
-
                         @endauth
                     </div>
                 @endif

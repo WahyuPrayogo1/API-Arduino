@@ -21,17 +21,15 @@ class PenjualanController extends Controller
         if ($request->ajax()) {
             return DataTables::of($penjualans)
                 ->addColumn('total_harga', function($row) {
-                    // Menghitung total harga berdasarkan jumlah dan harga
                     return 'Rp ' . number_format($row->jumlah * $row->harga, 0, ',', '.');
                 })
                 ->addColumn('tanggal_penjualan', function($row) {
                     return $row->tanggal_penjualan ? \Carbon\Carbon::parse($row->tanggal_penjualan)->format('d-m-Y') : 'Tanggal Tidak Tersedia';
                 })
                 ->addColumn('aksi', function($row) {
-                    // Tombol aksi untuk penjualan
                     return view('backend.pages.penjualans.actions', compact('row'));
                 })
-                ->rawColumns(['aksi']) // Menandakan kolom yang mengandung HTML
+                ->rawColumns(['aksi'])
                 ->make(true);
         }
 
@@ -42,10 +40,7 @@ class PenjualanController extends Controller
 
     public function create()
     {
-        // Ambil semua data produk (barang)
-        $barangs = Barang::all(); // Pastikan model Barang sudah ada
-
-        // Tampilkan form create dengan data barang
+        $barangs = Barang::all();
         return view('backend.pages.penjualans.create', compact('barangs'));
     }
 
@@ -91,8 +86,8 @@ class PenjualanController extends Controller
 
     public function edit($id)
     {
-        $penjualan = Penjualan::findOrFail($id); // Mengambil data penjualan berdasarkan ID
-        $barangs = Barang::all(); // Mengambil semua data barang
+        $penjualan = Penjualan::findOrFail($id);
+        $barangs = Barang::all(); 
         return view('backend.pages.penjualans.edit', compact('penjualan', 'barangs')); // Mengirim data ke view
     }
 
