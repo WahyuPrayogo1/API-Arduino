@@ -64,7 +64,7 @@
         <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
             <div class="container">
                 <h1 class="display-3 fw-bold poppins-extrabold">Sistem Absensi</h1>
-                <p class="poppins-medium">Aplikasi untuk mencatat dan mengelola kehadiran berbasis integrasi dengan Arduino, website, dan aplikasi Android.</p>
+                <p class="poppins-medium">Aplikasi untuk mencatat dan mengelola kehadiran berbasis integrasi dengan Arduino, dan website</p>
 
 
                 <!-- Bagian login/register sesuai dengan kondisi -->
